@@ -9,6 +9,7 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
+    print(DISCORD_TOKEN)
     print(f'{client.user} has connected to Discord!')
     print(client.guilds)
     print(client.guilds[0].members)
