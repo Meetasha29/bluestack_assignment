@@ -23,6 +23,9 @@ class PostgresRestultJSONSerializer:
 
 
 class PostgresQueryExecutor(object):
+    """
+    Directly interacts with the database.
+    """
     DB = {
         'discord_db': {
             "user": DISCORD_DB_USER,
@@ -35,19 +38,23 @@ class PostgresQueryExecutor(object):
 
     def __init__(self, db):
         """
+            init the connection and the postgres cursor.
         """
         self.connection = psycopg2.connect(**PostgresQueryExecutor.DB[db])
         self.cursor = self.connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
     def close(self):
         """
+        Close the connection and postgres cursor
         """
         self.cursor.close()
         self.connection.close()
 
     def execute(self, query, **kwargs):
         """
+        Fetch the result from DB
         """
+        print('Executing Query: {}'.format(query.format(**kwargs)))
 
         self.cursor.execute(query.format(**kwargs))
         data = PostgresRestultJSONSerializer.parse(self.cursor.fetchall())
@@ -55,10 +62,15 @@ class PostgresQueryExecutor(object):
 
     def execute_query(self, query, **kwargs):
         """
+        Execute create/update/delete query
         """
+        print('Executing Query: {}'.format(query.format(**kwargs)))
 
         self.cursor.execute(query.format(**kwargs))
         self.commit()
 
     def commit(self):
+        """
+        Commit the DB
+        """
         self.connection.commit()

@@ -2,6 +2,9 @@ from postgres_query import PostgresQueryExecutor
 
 
 class QueryManager:
+    """
+    Create query and Hit the postgres instance to execute it.
+    """
 
     def __init__(self):
         self.postgres_instance = PostgresQueryExecutor('discord_db')
@@ -29,3 +32,6 @@ class QueryManager:
             format(user_id=user_id, search_term=search_term)
 
         return self.postgres_instance.execute(query)
+
+    def close(self):
+        self.postgres_instance.close()

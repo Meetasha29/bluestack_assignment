@@ -10,7 +10,11 @@ def google_search(query):
         q=query,
         cx=GOOGLE_CX_KEY,
     ).execute()
+
     try:
+        """
+        Get top 5 links from the google result.
+        """
         items = result["items"]
         top_links = []
         for i in items:
@@ -20,4 +24,5 @@ def google_search(query):
         return top_links
 
     except Exception as e:
+        print(e)
         return
